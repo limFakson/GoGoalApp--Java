@@ -1,0 +1,10 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+        maven { url "https://chaquo.com/maven" }
+    }
+}
+rootProject.name = "GoGoalApp"
+include ':app'

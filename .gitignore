@@ -1,0 +1,55 @@
+# Gradle build output
+.gradle/
+build/
+*/build/
+
+# Android Studio
+.idea/
+*.iml
+*.ipr
+*.iws
+.idea/workspace.xml
+.idea/libraries
+.idea/modules.xml
+
+# Local configuration file (sdk path, etc.)
+local.properties
+
+# Log files
+*.log
+
+# Generated files
+captures/
+.externalNativeBuild/
+.cxx/
+gen/
+
+# Keystore files (if any)
+*.jks
+*.keystore
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Gradle cache
+.gradle/
+gradle-app.setting
+
+# Android Profiling
+*.hprof
+
+# NodeJS / npm (if you have Node code inside assets or backend)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# APK / AAB
+*.apk
+*.ap_
+*.aab
+
+# Backup files
+*.bak
+*.tmp
+*.swp
