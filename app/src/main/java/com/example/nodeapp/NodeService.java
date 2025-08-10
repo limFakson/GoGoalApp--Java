@@ -42,8 +42,8 @@ public class NodeService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Node Service")
-                .setContentText("NodeClient is running")
+                .setContentTitle("GoGoal Service")
+                .setContentText("GoGoalClient is running")
                 .setSmallIcon(R.drawable.ic_notification)
                 .build();
 
