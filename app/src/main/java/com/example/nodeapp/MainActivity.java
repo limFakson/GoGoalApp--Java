@@ -20,7 +20,6 @@ import android.provider.Settings;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.view.Window;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -72,20 +71,30 @@ public class MainActivity extends AppCompatActivity {
         AndroidThreeTen.init(this);
         setContentView(R.layout.activity_main);
 
+        
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this,
+            Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[] { Manifest.permission.POST_NOTIFICATIONS },
+                        REQ_CODE_POST_NOTIFICATIONS);
+            }
+        }
+        
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) { // Android 14
+            // Foreground service types must be correct
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.FOREGROUND_SERVICE)) {
+                ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.FOREGROUND_SERVICE }, 0);
+            }
+        }
+        
+        requestBatteryOptimizationExemption();
+        
         Intent serviceIntent = new Intent(this, NodeService.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForegroundService(serviceIntent);
         } else {
             startService(serviceIntent);
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this,
-                        new String[] { Manifest.permission.POST_NOTIFICATIONS },
-                        REQ_CODE_POST_NOTIFICATIONS);
-            }
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -122,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
         });
         recyclerView.setAdapter(matchAdapter);
 
-        requestBatteryOptimizationExemption();
         fetchMatches();
         checkForUpdate();
 

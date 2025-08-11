@@ -16,6 +16,9 @@ import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.net.wifi.WifiManager;
 import android.content.Context;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.os.SystemClock;
 
 public class NodeService extends Service {
 
@@ -29,14 +32,13 @@ public class NodeService extends Service {
         super.onCreate();
         sendLogToActivity("Service created");
 
-        // Create Notification Channel for Foreground Service
-        createNotificationChannel();
-        acquireWakeLock();
-
         String gateway = "ws://proxy.gogoaltv.com:8010/ws";
         // Start NodeClient here
         nodeClient = new NodeClient(gateway, 15, 8, 30, log->sendLogToActivity(log));
-        nodeClient.start();
+        
+        // Create Notification Channel for Foreground Service
+        createNotificationChannel();
+        acquireWakeLock();
     }
 
     @Override
@@ -72,6 +74,24 @@ public class NodeService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return null; // We don't bind, only start
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        scheduleRestart(this);
+        super.onTaskRemoved(rootIntent);
+    }
+
+    private void scheduleRestart(Context context) {
+        Intent restartServiceIntent = new Intent(context, NodeService.class);
+        PendingIntent restartServicePendingIntent = PendingIntent.getService(context, 1, restartServiceIntent,
+                PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
+
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                SystemClock.elapsedRealtime() + 5000,
+                restartServicePendingIntent);
     }
 
     private void sendLogToActivity(String log) {
