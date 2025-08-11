@@ -18,6 +18,9 @@ local.properties
 # Log files
 *.log
 
+# txt file
+*.txt
+
 # Generated files
 captures/
 .externalNativeBuild/

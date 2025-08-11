@@ -4,6 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="GoGoalTv"
+        android:textColor="#C62828"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:background="#FFFFFF"
+        android:padding="12dp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/outputView"
@@ -13,6 +24,19 @@
         android:scrollbars="vertical"
         android:background="#EEEEEE"
         android:padding="8dp"/>
+    
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:id="@+id/swipeRefresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+        <!-- RecyclerView for matches -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewMatches"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="12dp" 
+            android:clipToPadding="false" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     
     <!-- White overlay that covers the output view and shows "GoGoalTv" -->
     <!-- Overlay -->
@@ -42,7 +66,7 @@
                 android:id="@+id/overlaySubtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Coming Soon"
+                android:text="..."
                 android:textColor="#000000"
                 android:textSize="18sp"
                 android:layout_marginTop="8dp" />
